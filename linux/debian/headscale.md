@@ -529,4 +529,3 @@ headscale nodes move NODE_ID --user r2bny
 ```bash
 headscale nodes delete NODE_ID
 ```
-headscale nodes register --user r2bny --key 00000000000000000000
