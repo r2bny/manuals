@@ -79,7 +79,7 @@ WantedBy=multi-user.target
 ```
 Сохраняем (`Ctrl + X`, `Y`, `Enter`).
 
-##№ 3.3 Регистрация и запуск службы headscale
+### 3.3 Регистрация и запуск службы headscale
 Перезагрузите конфигурацию systemd:​
 ```bash
 sudo systemctl daemon-reload
@@ -96,7 +96,6 @@ sudo nano /etc/headscale/config.yaml
 ```
 Редактируем файл `config.yaml`:
 ```yaml
----
 # headscale will look for a configuration file named `config.yaml` (or `config.json`) in the following order:
 #
 # - `/etc/headscale`
