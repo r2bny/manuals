@@ -26,8 +26,8 @@ AllowTcpForwarding yes
 ```
 Перезапустите SSH-сервер для применения изменений:
 ```bash
-    sudo systemctl restart ssh
-    ```
+sudo systemctl restart ssh
+```
 
 ## 2. Настройка проброса TCP на клиенте
 Установите SSH-клиент, если он ещё не установлен (на большинстве систем Linux он уже установлен):
