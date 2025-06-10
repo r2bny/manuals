@@ -70,7 +70,6 @@ apt --version
 lsb_release -a
 python3 -c "import sys; print(sys.executable)"
 ```
-Убедитесь, что системные команды работают корректно после смены python:
 ```bash
 sudo ln -s /usr/bin/python3.7 /usr/local/bin/python3.7
 ```
