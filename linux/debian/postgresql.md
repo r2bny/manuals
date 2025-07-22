@@ -123,5 +123,3 @@ ALTER DATABASE имя_базы_данных OWNER TO имя_пользовате
   ```bash
   sudo apt install postgresql-client
   ```
-
-Теперь PostgreSQL должен быть установлен и настроен на вашем Debian-сервере!
