@@ -71,8 +71,8 @@ conn ikev2-vpn
     rightdns=1.1.1.1,9.9.9.9
     rightsendcert=never
     eap_identity=%identity
-	ike=chacha20poly1305-sha512-curve25519-prfsha512,aes256gcm16-sha384-prfsha384-ecp384,aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024!
-	esp=chacha20poly1305-sha512,aes256gcm16-ecp384,aes256-sha256,aes256-sha1,3des-sha1!
+    ike=chacha20poly1305-sha512-curve25519-prfsha512,aes256gcm16-sha384-prfsha384-ecp384,aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024!
+    esp=chacha20poly1305-sha512,aes256gcm16-ecp384,aes256-sha256,aes256-sha1,3des-sha1!
 ```
 Чтобы обеспечить широкую совместимость между клиентами и сервером IKEv2, нужно использовать алгоритмы шифрования, которые поддерживаются большинством платформ. Универсальные и совместимые шифры IKE и ESP:
 ```
