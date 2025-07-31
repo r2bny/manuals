@@ -156,17 +156,39 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now n8n
 ```
 Проверка:
-
 ```bash
 systemctl status n8n
 ```
 
----
-
-## 🔥 7. Тест
-
-Откройте в браузере:
-
+## 6. Обновление n8n
+Остановка сервиса:
+```bash
+sudo systemctl stop n8n
 ```
-http://n8n.r2bny.com:5678
+Обновление через npm:
+```bash
+sudo npm install -g n8n
+```
+Проверка версии:
+```bash
+n8n --version
+```
+Перезапуск:
+```bash
+sudo systemctl start n8n
+```
+
+## 7. Резервное копирование
+Конфигурация:
+```bash
+sudo cp -a /opt/n8n/.n8n /opt/n8n/.n8n.bak.$(date +%F)
+```
+База данных:
+```bash
+sudo -u postgres pg_dump n8n > ~/n8n_backup_$(date +%F).sql
+```
+
+## 8. Логи и отладка
+```bash
+journalctl -u n8n -e
 ```
