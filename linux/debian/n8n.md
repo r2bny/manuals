@@ -165,7 +165,17 @@ systemctl status n8n
 ```bash
 sudo systemctl stop n8n
 ```
-Обновление через npm:
+Обновление Node.js до версии ≥ 20 (требуется для новых версий n8n):
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+Проверка:
+```bash
+node -v
+npm -v
+```
+Обновление n8n через npm:
 ```bash
 sudo npm install -g n8n
 ```
@@ -173,7 +183,7 @@ sudo npm install -g n8n
 ```bash
 n8n --version
 ```
-Перезапуск:
+Запуск:
 ```bash
 sudo systemctl start n8n
 ```
