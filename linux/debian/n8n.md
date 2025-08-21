@@ -80,7 +80,7 @@ sudo systemctl reload nginx
 ```
 Получим сертификат HTTPS от Let's Encrypt:
 ```
-sudo certbot --nginx -d n8n.r2bny.ru
+sudo certbot --nginx -d n8n.r2bny.com
 ```
 
 ## 3. Настройка окружения
