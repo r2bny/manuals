@@ -1,6 +1,6 @@
 # Настройка SSH для проброса TCP на Debian GNU/Linux
 
-## 1. Установка и настройка SSH-сервера на Debian 12
+## 1. Установка и настройка SSH-сервера
 Установите OpenSSH Server, если он ещё не установлен:
 ```bash
 sudo apt update
@@ -20,9 +20,12 @@ sudo systemctl start ssh
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
-Найдите строку `AllowTcpForwarding` и установите её в значение `yes`. Если эта строка отсутствует, добавьте её. Сохраните изменения и закройте файл:
+Найдите строки и установите значения. Если эта строки отсутствуют, добавьте их. Сохраните изменения и закройте файл:
 ```bash
 AllowTcpForwarding yes
+GatewayPorts no
+X11Forwarding yes
+PermitTunnel yes
 ```
 Перезапустите SSH-сервер для применения изменений:
 ```bash
@@ -54,3 +57,4 @@ ssh -L 8080:localhost:80 user@r2bny.com
 http://localhost:8080
 ```
 Если всё настроено правильно, вы должны увидеть веб-страницу, доступную на удалённом сервере через порт 80.
+
