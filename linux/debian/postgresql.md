@@ -46,7 +46,6 @@ CREATE DATABASE имя_базы_данных ENCODING 'UTF8';
 CREATE USER имя_пользователя WITH PASSWORD 'P@ssw0rd';
 GRANT ALL PRIVILEGES ON DATABASE имя_базы_данных TO имя_пользователя;
 ALTER DATABASE имя_базы_данных OWNER TO имя_пользователя;
-\q
 ```
 
 Чтобы выйти из psql, выполните команду:
