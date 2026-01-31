@@ -69,14 +69,8 @@ pools {
 }
 
 secrets {
-    eap-user1 {
-        id = user1
-        secret = "P@ssw0rdUser1"
-    }
-    # eap-user2 {
-    #    id = user2
-    #    secret = "P@ssw0rdUser2"
-    # }    
+    include /etc/swanctl/secrets.d/*.secrets
+} 
 }
 ```
 ### 3.1 Конфигурация AppArmor 
@@ -350,4 +344,5 @@ certbot certonly --standalone
 - порт **80 должен быть свободен**
 - веб-сервер (nginx/apache) не должен работать
 Если порт 80 занят — рекомендуется использовать `--webroot` или DNS-challenge.
+
 
