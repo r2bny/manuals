@@ -70,10 +70,27 @@ pools {
 
 secrets {
     include /etc/swanctl/secrets.d/*.secrets
-} 
 }
 ```
-### 3.1 Конфигурация AppArmor 
+### 3.2 Конфигурация пользователей StrongSwan
+Создадим папку для пользователей:
+```bash
+mkdir -p /etc/swanctl/secrets.d
+chmod 700 /etc/swanctl/secrets.d
+```
+Для каждого пользователя создаём отдельный файл, например:
+```bash
+/etc/swanctl/secrets.d/user1.secrets
+/etc/swanctl/secrets.d/user2.secrets
+```
+Формат файла пользователя:
+```bash
+eap-user1 {
+    id = user1
+    secret = "P@ssw0rdUser1"
+}
+```
+### 3.3 Конфигурация AppArmor 
 Отредактируйте файл конфигурации AppArmor для утилиты swanctl (которая загружает конфигурацию strongSwan):
 ```bash
 sudo nano /etc/apparmor.d/local/usr.sbin.swanctl
@@ -344,5 +361,6 @@ certbot certonly --standalone
 - порт **80 должен быть свободен**
 - веб-сервер (nginx/apache) не должен работать
 Если порт 80 занят — рекомендуется использовать `--webroot` или DNS-challenge.
+
 
 
