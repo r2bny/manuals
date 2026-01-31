@@ -38,8 +38,8 @@ connections {
     eap-ikev2 {
         local {
             auth = pubkey
-            certs = /etc/swanctl/x509/cert.pem
-            id = tun.r2bny.com
+            certs = cert.pem
+            id = tun.r2bny.ru
         }
         remote {
             auth = eap-mschapv2
@@ -47,23 +47,24 @@ connections {
         }
         children {
             eap-sa {
-                local_ts  = 0.0.0.0/0
+                local_ts = 0.0.0.0/0
                 start_action = start
+                esp_proposals = aes128-sha1,aes128-sha256,aes256-sha384,aes128gcm16,aes256gcm16
+            }
         }
-    }
-    unique = never
-    version = 2
-    dpd_delay = 30s
-    send_cert = always
-    proposals=aes128-aes192-aes256-sha1-sha256-sha384-modp1024,default
-    pools = ipv4-pool
+        version = 2
+        dpd_delay = 30s
+        send_cert = always
+        proposals = aes128-sha256-modp1024,aes128-sha256-modp2048,aes256-sha384-modp2048
+        pools = ipv4-pool
+        reauth_time = 3600s
     }
 }
 
 pools {
     ipv4-pool {
-        addrs = 10.0.0.0/25
-        dns = 8.8.8.8
+        addrs = 10.0.0.2-10.0.0.250
+        dns = 8.8.8.8,8.8.4.4
     }
 }
 
@@ -349,3 +350,4 @@ certbot certonly --standalone
 - порт **80 должен быть свободен**
 - веб-сервер (nginx/apache) не должен работать
 Если порт 80 занят — рекомендуется использовать `--webroot` или DNS-challenge.
+
