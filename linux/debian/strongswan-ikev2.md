@@ -36,10 +36,14 @@ sudo nano /etc/swanctl/conf.d/tun.r2bny.com.conf
 ```conf
 connections {
     eap-ikev2 {
+        # ВАЖНО для iOS/macOS
+        local_addrs = 0.0.0.0
+        remote_addrs = %any
+
         local {
             auth = pubkey
             certs = cert.pem
-            id = tun.r2bny.ru
+            id = tun.r2bny.com
         }
         remote {
             auth = eap-mschapv2
@@ -49,22 +53,42 @@ connections {
             eap-sa {
                 local_ts = 0.0.0.0/0
                 start_action = start
-                esp_proposals = aes128-sha1,aes128-sha256,aes256-sha384,aes128gcm16,aes256gcm16
+                esp_proposals = aes256gcm16,aes128gcm16,aes256-sha256,aes128-sha256,aes256-sha1
+                inactivity = 3600
+                dpd_action = clear
+                mode = tunnel
+                # remote_ts = 0.0.0.0/0, ::/0
             }
         }
+
         version = 2
         dpd_delay = 30s
         send_cert = always
-        proposals = aes128-sha256-modp1024,aes128-sha256-modp2048,aes256-sha384-modp2048
+
+        proposals = aes256-sha256-ecp256,aes256-sha256-modp2048,aes128-sha256-modp2048,aes256-sha256-modp1024,aes128-sha256-modp1024
+
         pools = ipv4-pool
-        reauth_time = 3600s
+
+        # ВАЖНО для iOS/macOS:
+        reauth_time = 28800s
+        rekey_time = 14400s
+
+        # Для мобильных клиентов:
+        mobike = yes
+        fragmentation = yes
+
+        # Дополнительно:
+        unique = no
+        keyingtries = 3
+        encap = no
     }
 }
 
 pools {
     ipv4-pool {
         addrs = 10.0.0.2-10.0.0.250
-        dns = 8.8.8.8,8.8.4.4
+        dns = 8.8.8.8, 8.8.4.4
+        # nbns =
     }
 }
 
@@ -361,6 +385,7 @@ certbot certonly --standalone
 - порт **80 должен быть свободен**
 - веб-сервер (nginx/apache) не должен работать
 Если порт 80 занят — рекомендуется использовать `--webroot` или DNS-challenge.
+
 
 
 
