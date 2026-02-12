@@ -1,12 +1,12 @@
-# Установка и настройка N8N на Debian GNU/Linux
-
+# Установка и настройка n8n на Debian GNU/Linux
+**Важно:** В данной инструкции для наглядности в примерах и конфигурационных файлах **используется домен `r2bny.com`**. Перед применением обязательно **замените его на ваш собственный домен** во всех упоминаниях в конфигурациях сервисов, путях к файлам и директориях, ссылках и сертификатах.
 ## 1. Обновление системы
 Перед установкой рекомендуется обновить все пакеты системы:
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
-## 2. Установка необходимых зависимостей и N8N
+## 2. Установка необходимых зависимостей и n8n
 Произведите установку ряда системных пакетов:
 ```bash
 sudo apt install -y curl gnupg build-essential git nodejs npm nginx certbot python3-certbot-nginx postgresql postgresql-contrib
@@ -20,7 +20,7 @@ npm -v
 ```bash
 sudo npm install -g n8n 
 ```
-Проверьте версию N8N:
+Проверьте версию n8n:
 ```bash
 n8n --version
 ```
@@ -84,7 +84,7 @@ sudo certbot --nginx -d n8n.r2bny.com
 ```
 
 ## 3. Настройка окружения
-Для безопасного запуска сервиса N8N создайте отдельного системного пользователя без доступа к оболочке и без домашней директории:
+Для безопасного запуска сервиса n8n создайте отдельного системного пользователя без доступа к оболочке и без домашней директории:
 ```bash
 sudo useradd -r -M -d /nonexistent -s /usr/sbin/nologin n8n
 ```
@@ -112,9 +112,9 @@ N8N_USER_FOLDER=/opt/n8n/.n8n
 DB_TYPE=postgresdb
 DB_POSTGRESDB_HOST=127.0.0.1
 DB_POSTGRESDB_PORT=5432
-DB_POSTGRESDB_DATABASE=n8n_database
-DB_POSTGRESDB_USER=n8n_user
-DB_POSTGRESDB_PASSWORD=strong_password
+DB_POSTGRESDB_DATABASE=n8n
+DB_POSTGRESDB_USER=n8n
+DB_POSTGRESDB_PASSWORD=P@ssw0rd
 DB_POSTGRESDB_SCHEMA=public
 
 N8N_LOG_LEVEL=info
