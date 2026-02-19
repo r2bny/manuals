@@ -85,21 +85,22 @@ sudo certbot --nginx -d n8n.r2bny.com
 ```
 
 ## 3. Настройка окружения
-Для безопасного запуска сервиса n8n создайте отдельного системного пользователя без доступа к оболочке и без домашней директории:
+Для безопасного запуска сервиса n8n создайте отдельного системного пользователя без доступа к оболочке:
 ```bash
-sudo useradd -r -M -d /nonexistent -s /usr/sbin/nologin n8n
+sudo useradd -r -M -d /opt/n8n -s /usr/sbin/nologin n8n
 ```
 Чтобы убедиться, что пользователь создан, выполните следующую команду:
 ```bash
 getent passwd n8n
 ```
-Создайте под конфигурацию и временные файлы:
+Создайте каталоги для корректной работы n8n:
 ```bash
-sudo mkdir -p /opt/n8n/.n8n
+sudo mkdir -p /opt/n8n/
+sudo mkdir -p /var/log/n8n
 ```
 Создайте конфигурационный файл `.env`:
 ```bash
-sudo nano /opt/n8n/.n8n/.env
+sudo nano /opt/n8n/.env
 ```
 Пример содержимого:
 ```
@@ -108,7 +109,7 @@ N8N_PORT=5678
 N8N_PROTOCOL=https
 WEBHOOK_URL=https://n8n.r2bny.com/
 
-N8N_USER_FOLDER=/opt/n8n/.n8n
+N8N_USER_FOLDER=/opt/n8n
 
 DB_TYPE=postgresdb
 DB_POSTGRESDB_HOST=127.0.0.1
@@ -118,11 +119,12 @@ DB_POSTGRESDB_USER=n8n
 DB_POSTGRESDB_PASSWORD=P@ssw0rd
 DB_POSTGRESDB_SCHEMA=public
 
+N8N_LOG_OUTPUT=/var/log/n8n/n8n.log
 N8N_LOG_LEVEL=info
 ```
 ```
 sudo chown -R n8n:n8n /opt/n8n
-sudo chmod 600 /opt/n8n/.n8n/.env
+sudo chmod 600 /opt/n8n/.env
 ```
 
 ## 4. Создание systemd-сервиса
@@ -139,12 +141,14 @@ After=network.target
 [Service]
 Type=simple
 User=n8n
-EnvironmentFile=/opt/n8n/.n8n/.env
-WorkingDirectory=/opt/n8n
+EnvironmentFile=/opt/n8n/.env
+WorkingDirectory=/opt/n8n/
 ExecStart=/usr/local/bin/n8n
 Restart=always
 RestartSec=10
 LimitNOFILE=65535
+StandardOutput=append:/var/log/n8n/n8n.log
+StandardError=append:/var/log/n8n/n8n.log
 
 [Install]
 WantedBy=multi-user.target
