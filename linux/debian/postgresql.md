@@ -78,7 +78,7 @@ ALTER DATABASE имя_базы_данных OWNER TO имя_пользовате
 1. **Разрешить подключения в `postgresql.conf`:**
    Откройте файл конфигурации PostgreSQL:
    ```bash
-   sudo nano /etc/postgresql/<версия>/main/postgresql.conf
+   sudo nano /etc/postgresql/17/main/postgresql.conf
    ```
    Найдите строку:
    ```bash
