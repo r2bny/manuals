@@ -12,12 +12,16 @@ sudo apt update && sudo apt upgrade -y
 ```bash
 sudo apt install -y curl gnupg build-essential git nodejs npm nginx certbot python3-certbot-nginx postgresql postgresql-contrib
 ```
-Проверка установки:
+Для чистой установки (только n8n):
+```bash
+sudo apt install -y curl gnupg build-essential git nodejs npm
+```
+Проверьте версии пакетов после установки:
 ```bash
 node -v
 npm -v
 ```
-Установка N8N глобально через npm:
+Установите n8n через npm:
 ```bash
 sudo npm install -g n8n 
 ```
