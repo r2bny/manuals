@@ -37,7 +37,7 @@ cat /proc/sys/kernel/random/uuid
 ``` bash
 sudo nano /usr/local/etc/xray/config.json
 ```
-Замените <UUID> на сгенерированный UUID и укажите свои параметры при необходимости:
+Замените <UUID> на сгенерированный UUID и <PRIVATE_KEY> на `abcdef...`:
 ``` json
 {
   "log": {
@@ -98,7 +98,7 @@ journalctl -u xray -f
 ```
 
 ## 4. Клиентская ссылка
-Замените <UUID> на UUID пользователя:
+Замените <UUID> на UUID пользователя, <UUID> на сгенерированный UUID:
 ```vless
 vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=chrome&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY REALITY
 ```
