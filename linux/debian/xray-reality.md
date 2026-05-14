@@ -102,6 +102,3 @@ journalctl -u xray -f
 ```vless
 vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=chrome&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY REALITY
 ```
-
-## 5. Проверка работоспособности
-Если конфигурация настроена корректно, должна отображаться стандартная страница nginx. Откройте в браузере: https://app.r2bny.com/
