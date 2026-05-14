@@ -1,0 +1,107 @@
+# Установка и настройка Xray (VLESS + REALITY) на Debian GNU/Linux
+**Важно:** В данной инструкции для наглядности в примерах и конфигурационных файлах **используется домен `r2bny.com`**. Перед применением обязательно **замените его на ваш собственный домен** во всех упоминаниях в конфигурациях сервисов, путях к файлам и директориях, ссылках и сертификатах.
+
+## 1. Установка Xray
+Выполните официальный скрипт установки Xray:
+```bash
+sudo apt install -y curl
+bash <(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh) install
+```
+- Бинарный файл: `/usr/local/bin/xray`
+- Конфигурация: `/usr/local/etc/xray/config.json`
+
+## 2. Установка дополнительных пакетов
+Установите необходимые пакеты:
+```bash
+sudo apt install -y uuid-runtime
+```
+
+## 3. Конфигурация Xray (VLESS + REALITY)
+Сгенерируйте ключи:
+```bash
+xray x25519
+```
+Пример вывода:
+```bash
+Private key: abcdef...
+Public key: 123456...
+```
+Сохраните ключи:
+- На сервер: `abcdef...`
+- На клиент: `123456...`
+Сгенерируйте UUID который будет использоваться для аутентификации клиента:
+```bash
+cat /proc/sys/kernel/random/uuid
+```
+Откройте в редакторе конфигурационный файл:
+``` bash
+sudo nano /usr/local/etc/xray/config.json
+```
+Замените <UUID> на сгенерированный UUID и укажите свои параметры при необходимости:
+``` json
+{
+  "log": {
+    "loglevel": "warning"
+  },
+
+  "inbounds": [
+    {
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "<UUID>",
+            "flow": "xtls-rprx-vision"
+          }
+        ],
+        "decryption": "none"
+      },
+
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+
+        "realitySettings": {
+          "show": false,
+          "dest": "twitch.tv:443",
+          "xver": 0,
+
+          "serverNames": [
+            "twitch.tv"
+          ],
+
+          "privateKey": "<PRIVATE_KEY>",
+
+          "shortIds": [
+            "a1b2c3d4"
+          ]
+        }
+      }
+    }
+  ],
+
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    }
+  ]
+}
+```
+Выполните перезапуск сервисов:
+``` bash
+sudo systemctl restart xray
+```
+Просмотр логов Xray в реальном времени:
+``` bash
+journalctl -u xray -f
+```
+
+## 4. Клиентская ссылка
+Замените <UUID> на UUID пользователя:
+```vless
+vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=chrome&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY REALITY
+```
+
+## 5. Проверка работоспособности
+Если конфигурация настроена корректно, должна отображаться стандартная страница nginx. Откройте в браузере: https://app.r2bny.com/
