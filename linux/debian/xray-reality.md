@@ -64,7 +64,7 @@ sudo nano /usr/local/etc/xray/config.json
 
         "realitySettings": {
           "show": false,
-          "dest": "twitch.tv:443",
+          "dest": "kick.com:443",
           "xver": 0,
 
           "serverNames": [
@@ -100,5 +100,5 @@ journalctl -u xray -f
 ## 4. Клиентская ссылка
 Замените <UUID> на UUID пользователя, <UUID> на сгенерированный UUID:
 ```vless
-vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY_REALITY
+vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=kick.com&fp=randomized&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY_REALITY
 ```
