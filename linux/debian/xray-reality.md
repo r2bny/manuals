@@ -100,5 +100,5 @@ journalctl -u xray -f
 ## 4. Клиентская ссылка
 Замените <UUID> на UUID пользователя, <UUID> на сгенерированный UUID:
 ```vless
-vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=chrome&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY REALITY
+vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY_REALITY
 ```
