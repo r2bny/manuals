@@ -68,7 +68,7 @@ sudo nano /usr/local/etc/xray/config.json
           "xver": 0,
 
           "serverNames": [
-            "twitch.tv"
+            "kick.com"
           ],
 
           "privateKey": "<PRIVATE_KEY>",
