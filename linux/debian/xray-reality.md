@@ -98,7 +98,11 @@ journalctl -u xray -f
 ```
 
 ## 4. Клиентская ссылка
-Замените <UUID> на UUID пользователя, <PUBLIC_KEY> на сгенерированный Public Key:
+Скопируйте шаблон ниже и замените плейсхолдеры на свои данные:
+- `<UUID>` — UUID пользователя  
+- `<YOUR_SERVER_IP_OR_DOMAIN>` — IP-адрес или домен вашего сервера  
+- `<PUBLIC_KEY>` — публичный ключ Reality (Public Key)
 ```vless
-vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=a1b2c3d4&type=tcp&flow=xtls-rprx-vision#XRAY Server
+vless://<UUID>@<YOUR_SERVER_IP_OR_DOMAIN>:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=a1b2c3d4&type=tcp&flow=xtls-rprx-vision#XRAY Server
 ```
+Вставьте полученную ссылку в клиент Xray. Сохраните конфигурацию и подключитесь к серверу.
