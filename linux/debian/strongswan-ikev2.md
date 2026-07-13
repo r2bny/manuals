@@ -96,7 +96,6 @@ pools {
 secrets {
     include /etc/swanctl/secrets.d/*.secrets
 }
-}
 ```
 ### 3.2 Конфигурация пользователей StrongSwan
 Создадим папку для пользователей:
