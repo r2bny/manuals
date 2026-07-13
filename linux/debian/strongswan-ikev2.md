@@ -37,7 +37,6 @@ sudo nano /etc/swanctl/conf.d/tun.r2bny.com.conf
 ```conf
 connections {
     eap-ikev2 {
-        # ВАЖНО для iOS/macOS
         local_addrs = 0.0.0.0
         remote_addrs = %any
 
@@ -65,20 +64,12 @@ connections {
         version = 2
         dpd_delay = 30s
         send_cert = always
-
         proposals = aes256-sha256-ecp256,aes256-sha256-modp2048,aes128-sha256-modp2048,aes256-sha256-modp1024,aes128-sha256-modp1024
-
         pools = ipv4-pool
-
-        # ВАЖНО для iOS/macOS:
         reauth_time = 28800s
         rekey_time = 14400s
-
-        # Для мобильных клиентов:
         mobike = yes
         fragmentation = yes
-
-        # Дополнительно:
         unique = no
         keyingtries = 3
         encap = no
