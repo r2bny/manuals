@@ -103,3 +103,93 @@ journalctl -u xray -f
 vless://<UUID>@<YOUR_SERVER_IP_OR_DOMAIN>:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=a1b2c3d4&type=tcp&flow=xtls-rprx-vision#XRAY Server
 ```
 Вставьте полученную ссылку в клиент Xray. Сохраните конфигурацию и подключитесь к серверу.
+
+## 5. Настройка Xray Client как локального SOCKS5-прокси
+**Конфигурация клиента (config.json): **
+```json
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "tag": "socks-in",
+      "port": 1080,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "<YOUR_SERVER_IP_OR_DOMAIN>",
+            "port": 443,
+            "users": [
+              {
+                "id": "<UUID>",
+                "flow": "xtls-rprx-vision",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "fingerprint": "randomized",
+          "serverName": "twitch.tv",
+          "publicKey": "<PUBLIC_KEY>",
+          "shortId": "a1b2c3d4",
+          "spiderX": "/"
+        }
+      }
+    }
+  ]
+}
+```
+### 5.1 Linux (Debian / Ubuntu)
+Выполните установку Xray:
+```bash
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+```
+Создайте/отредактируйте файл с следующим содержимым (замените плейсхолдеры):
+```bash
+sudo nano /usr/local/etc/xray/config.json
+```
+Запуск сервиса:
+```bash
+sudo systemctl enable --now xray
+journalctl -u xray -f
+```
+### 5.2 Windows
+1. Скачайте [Xray-core](https://github.com/XTLS/Xray-core/releases)
+2. Распакуйте в `C:\xray`
+3. Создайте `config.json` с конфигом выше
+4. Запуск:
+```cmd
+cd C:\xray
+xray.exe run -c config.json
+```
+### 5.3 macOS
+Выполните установку Xray:
+```bash
+brew install xray
+```
+Вставьте конфиг в `/usr/local/etc/xray/config.json` и запустите:
+```bash
+brew services start xray
+```
+
+## Полезные ссылки
+- Xray Core: https://github.com/XTLS/Xray-core
+- Официальная документация: https://xtls.github.io/
