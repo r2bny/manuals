@@ -94,7 +94,10 @@ pools {
 }
 
 secrets {
-    include /etc/swanctl/secrets.d/*.secrets
+    eap-r2bny {
+        id = r2bny
+        secret = "P@SWW0RD"
+    }
 }
 ```
 ### 3.2 Конфигурация пользователей StrongSwan
