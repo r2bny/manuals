@@ -23,8 +23,8 @@ xray x25519
 ```
 Пример вывода:
 ```bash
-Private key: abcdef...
-Public key: 123456...
+Private Key: abcdef...
+Public Key: 123456...
 ```
 Сохраните ключи:
 - На сервер: `abcdef...`
@@ -64,7 +64,7 @@ sudo nano /usr/local/etc/xray/config.json
 
         "realitySettings": {
           "show": false,
-          "dest": "kick.com:443",
+          "dest": "twitch.tv:443",
           "xver": 0,
 
           "serverNames": [
@@ -98,7 +98,7 @@ journalctl -u xray -f
 ```
 
 ## 4. Клиентская ссылка
-Замените <UUID> на UUID пользователя, <UUID> на сгенерированный UUID:
+Замените <UUID> на UUID пользователя, <PUBLIC_KEY> на сгенерированный Public Key:
 ```vless
-vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=kick.com&fp=randomized&pbk=<PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp&flow=xtls-rprx-vision#XRAY_REALITY
+vless://<UUID>@YOUR_SERVER_IP:443?encryption=none&security=reality&sni=twitch.tv&fp=randomized&pbk=<PUBLIC_KEY>&sid=a1b2c3d4&type=tcp&flow=xtls-rprx-vision#XRAY Server
 ```
