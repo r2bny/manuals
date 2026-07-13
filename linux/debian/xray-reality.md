@@ -17,7 +17,7 @@ sudo apt install -y uuid-runtime
 ```
 
 ## 3. Конфигурация Xray (VLESS + REALITY)
-Сгенерируйте ключи:
+Сгенерируйте и сохарните ключи Reality:
 ```bash
 xray x25519
 ```
@@ -26,9 +26,6 @@ xray x25519
 Private Key: abcdef...
 Public Key: 123456...
 ```
-Сохраните ключи:
-- На сервер: `abcdef...`
-- На клиент: `123456...`
 Сгенерируйте UUID который будет использоваться для аутентификации клиента:
 ```bash
 cat /proc/sys/kernel/random/uuid
@@ -37,7 +34,7 @@ cat /proc/sys/kernel/random/uuid
 ``` bash
 sudo nano /usr/local/etc/xray/config.json
 ```
-Замените <UUID> на сгенерированный UUID и <PRIVATE_KEY> на `abcdef...`:
+Замените <UUID> и <PRIVATE_KEY> на сгенерированные значения:
 ``` json
 {
   "log": {
