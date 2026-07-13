@@ -34,7 +34,7 @@ cat /proc/sys/kernel/random/uuid
 ``` bash
 sudo nano /usr/local/etc/xray/config.json
 ```
-Замените <UUID> и <PRIVATE_KEY> на сгенерированные значения:
+Замените '<UUID>' и '<PRIVATE_KEY>' на сгенерированные значения:
 ``` json
 {
   "log": {
