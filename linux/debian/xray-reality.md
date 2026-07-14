@@ -65,7 +65,7 @@ sudo nano /usr/local/etc/xray/config.json
           "xver": 0,
 
           "serverNames": [
-            "kick.com"
+            "twitch.tv"
           ],
 
           "privateKey": "<PRIVATE_KEY>",
@@ -84,6 +84,21 @@ sudo nano /usr/local/etc/xray/config.json
     }
   ]
 }
+```
+Блок 'clients':
+``` json
+        "clients": [
+          {
+            "id": "<UUID_1>",
+            "flow": "xtls-rprx-vision",
+            "email": "user1@r2bny.com"   // для удобства в логах
+          },
+          {
+            "id": "<UUID_2>",
+            "flow": "xtls-rprx-vision",
+            "email": "user2@example.com"
+          }
+          // Добавляйте сколько угодно
 ```
 Выполните перезапуск сервисов:
 ``` bash
