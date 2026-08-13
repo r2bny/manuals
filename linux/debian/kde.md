@@ -1,89 +1,44 @@
-# Установка KDE Plasma на Raspberry Pi OS
+# Установка KDE Plasma на Debian GNU/Linux
 ## 1. Обновление системы
-Перед установкой необходимо обновить систему, чтобы избежать конфликтов версий и установить актуальные пакеты.
-
-1. Откройте терминал (через графический интерфейс или SSH).
-2. Выполните команду:
-   ```bash
-   sudo apt update && sudo apt full-upgrade -y
-   ```
-   - `sudo apt update` обновляет списки пакетов из репозиториев.
-   - `sudo apt full-upgrade` обновляет все пакеты до последних версий, включая зависимости.
-   - Флаг `-y` автоматически подтверждает запросы.
-3. Проверьте наличие ошибок. Если возникли проблемы (например, «Unable to fetch some archives»), попробуйте сменить зеркало в `/etc/apt/sources.list` или повторите позже.
-4. (Опционально) Очистите ненужные пакеты:
-   ```bash
-   sudo apt autoremove -y && sudo apt autoclean
-   ```
+Перед установкой убедитесь, что система обновлена:
+```bash
+sudo apt update && sudo apt full-upgrade -y
+```
+Очистите систему от устаревших пакетов:
+```bash
+sudo apt autoremove -y && sudo apt autoclean
+```
 
 ## 2. Установка KDE Plasma
-Для Raspberry Pi рекомендуется минимальный пакет `kde-plasma-desktop`, чтобы снизить нагрузку на ресурсы. Также установим полезные приложения: Konsole, Ark и Kate.
-
-1. Выполните команду:
-   ```bash
-   sudo apt -y install kde-plasma-desktop konsole ark kate
-   ```
-   - `kde-plasma-desktop` — минимальный набор для KDE Plasma (рабочий стол, диспетчер окон, базовые компоненты).
-   - `konsole` — терминал KDE.
-   - `ark` — утилита для работы с архивами.
-   - `kate` — текстовый редактор с подсветкой синтаксиса.
-2. Убедитесь, что на SD-карте достаточно места (~1–2 ГБ):
-   ```bash
-   df -h
-   ```
-3. (Опционально) Установите дополнительные приложения, например:
-   ```bash
-   sudo apt install dolphin firefox-esr
-   ```
-   - `dolphin` — файловый менеджер KDE.
-   - `firefox-esr` — браузер с расширенной поддержкой.
-4. Установка занимает 10–30 минут в зависимости от скорости интернета и модели Raspberry Pi.
-
-## 3. Настройка графической среды по умолчанию
-Чтобы KDE Plasma запускалась автоматически, настройте систему на загрузку в графический режим.
-
-1. Выполните:
-   ```bash
-   sudo systemctl set-default graphical.target
-   ```
-   - Это включает запуск графической среды при старте.
-2. Проверьте диспетчер входа SDDM:
-   ```bash
-   sudo systemctl status sddm
-   ```
-   - Если SDDM не установлен, установите:
-     ```bash
-     sudo apt install sddm
-     ```
-3. При загрузке SDDM может предложить выбрать сессию (Plasma или LXDE). Выберите «Plasma».
-
-## 4. Перезагрузка системы
-Примените изменения, перезагрузив Raspberry Pi:
-
+В Debian доступно три основных варианта: plasma-desktop, kde-standard, kde-full. Для экономии ресурсов выберите первый вариант:
+```bash
+sudo apt -y install sddm plasma-desktop plasma-nm dolphin konsole ark kate firefox-esr
+```
+Если вы хотите более полную среду выполните:
+```bash
+sudo apt install -y sddm kde-standard
+```
+Установите дополнительные компоненты (по желанию):
+```bash
+sudo apt install -y plasma-widgets-addons spectacle gwenview okular
+```
+Установите загрузку в графический интерфейс по умолчанию:
+```bash
+sudo systemctl set-default graphical.target
+```
+Проверьте диспетчер входа SDDM:
+```bash
+sudo systemctl status sddm
+```
+Если SDDM не активен, запустите его:
+```bash
+sudo systemctl enable --now sddm
+```
+Выполните перезагрузку:
 ```bash
 sudo reboot
 ```
-- После перезагрузки вы должны увидеть экран входа SDDM с KDE Plasma.
-- Если система загружается в текстовый режим или LXDE, настройте SDDM:
-  ```bash
-  sudo dpkg-reconfigure sddm
-  ```
-
-## 5. Оптимизация KDE Plasma
-KDE Plasma может быть ресурсоёмкой. Оптимизируйте её для Raspberry Pi:
-1. **Отключение эффектов**:
-   - В **Системных настройках** → **Рабочий стол** → **Эффекты рабочего стола** отключите анимации и прозрачность.
-2. **Увеличение файла подкачки**:
-   ```bash
-   sudo dphys-swapfile swapoff
-   sudo nano /etc/dphys-swapfile
-   ```
-   - Измените `CONF_SWAPSIZE` на `1024` (1 ГБ).
-   - Сохраните и выполните:
-     ```bash
-     sudo dphys-swapfile swapon
-     ```
-3. **Обновление драйверов GPU**:
-   ```bash
-   sudo apt install mesa-vulkan-drivers
-   ```
+После перезагрузки вы должны увидеть экран входа SDDM с KDE Plasma. Если система загружается в текстовый режим или LXDE, настройте SDDM:
+```bash
+sudo dpkg-reconfigure sddm
+```
