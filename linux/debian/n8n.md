@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade -y
 ## 2. Установка необходимых зависимостей и n8n
 Произведите установку ряда системных пакетов:
 ```bash
-sudo apt install -y curl gnupg build-essential git nodejs npm nginx certbot python3-certbot-nginx postgresql postgresql-contrib
+sudo apt install -y curl gnupg build-essential git nodejs npm nginx certbot python3-certbot-nginx python3-setuptools postgresql postgresql-contrib
 ```
 Для чистой установки (только n8n):
 ```bash
