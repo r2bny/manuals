@@ -44,7 +44,7 @@ sudo chmod 700 /home/ftpuser/private
 ```
 Создаём ссылку на общую папку:
 ```bash
-sudo ln -s /datastore /home/ftpuser/share
+sudo ln -s /datastore /home/ftpuser/datastore
 ```
 Проверяем группы пользователя:
 ```bash

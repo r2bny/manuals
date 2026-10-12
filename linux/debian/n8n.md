@@ -10,11 +10,15 @@ sudo apt update && sudo apt upgrade -y
 ## 2. Установка необходимых зависимостей и n8n
 Произведите установку ряда системных пакетов:
 ```bash
-sudo apt install -y curl gnupg build-essential git nodejs npm nginx certbot python3-certbot-nginx python3-setuptools postgresql postgresql-contrib
+sudo apt install -y curl gnupg ca-certificates build-essential git nginx certbot python3-certbot-nginx postgresql postgresql-contrib
 ```
-Для чистой установки (только n8n):
+Добавьте репозиторий NodeSource:
 ```bash
-sudo apt install -y curl gnupg build-essential git nodejs npm
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
+```
+Установите Node.js:
+```bash
+sudo apt install -y nodejs
 ```
 Проверьте версии пакетов после установки:
 ```bash
@@ -52,7 +56,7 @@ ALTER DATABASE n8n OWNER TO n8n;
 \q
 ```
 
-## 3. Настройка nginx
+## 4. Настройка nginx
 Создай новый конфигурационный файл:
 ```
 sudo nano /etc/nginx/sites-available/n8n.r2bny.com.conf
@@ -88,7 +92,7 @@ sudo systemctl reload nginx
 sudo certbot --nginx -d n8n.r2bny.com
 ```
 
-## 3. Настройка окружения
+## 5. Настройка окружения
 Для безопасного запуска сервиса n8n создайте отдельного системного пользователя без доступа к оболочке:
 ```bash
 sudo useradd -r -M -d /opt/n8n -s /usr/sbin/nologin n8n
@@ -102,6 +106,10 @@ getent passwd n8n
 sudo mkdir -p /opt/n8n/
 sudo mkdir -p /var/log/n8n
 ```
+Сгенерируйте ключ шифрования::
+```bash
+openssl rand -hex 32
+```
 Создайте конфигурационный файл `.env`:
 ```bash
 sudo nano /opt/n8n/.env
@@ -111,7 +119,12 @@ sudo nano /opt/n8n/.env
 N8N_HOST=n8n.r2bny.com
 N8N_PORT=5678
 N8N_PROTOCOL=https
-WEBHOOK_URL=https://n8n.r2bny.com/
+N8N_EDITOR_BASE_URL=https://r2bny.com
+WEBHOOK_URL=https://r2bny.com/
+N8N_PROXY_HOPS=1
+
+N8N_ENCRYPTION_KEY=СГЕНЕРИРУЙТЕ_ДЛИННЫЙ_СЛУЧАЙНЫЙ_КЛЮЧ_32+_СИМВОЛА
+N8N_SECURE_COOKIE=true
 
 N8N_USER_FOLDER=/opt/n8n
 
@@ -123,15 +136,16 @@ DB_POSTGRESDB_USER=n8n
 DB_POSTGRESDB_PASSWORD=P@ssw0rd
 DB_POSTGRESDB_SCHEMA=public
 
-N8N_LOG_OUTPUT=/var/log/n8n/n8n.log
 N8N_LOG_LEVEL=info
+N8N_LOG_OUTPUT=/var/log/n8n/n8n.log
 ```
-```
+Примените права:
+```bash
 sudo chown -R n8n:n8n /opt/n8n
 sudo chmod 600 /opt/n8n/.env
 ```
 
-## 4. Создание systemd-сервиса
+## 6. Создание systemd-сервиса
 Создайте unit-файл и введите содержимое:
 ```bash
 sudo nano /etc/systemd/system/n8n.service
@@ -147,7 +161,7 @@ Type=simple
 User=n8n
 EnvironmentFile=/opt/n8n/.env
 WorkingDirectory=/opt/n8n/
-ExecStart=/usr/local/bin/n8n
+ExecStart=/usr/bin/n8n
 Restart=always
 RestartSec=10
 LimitNOFILE=65535
@@ -158,7 +172,7 @@ StandardError=append:/var/log/n8n/n8n.log
 WantedBy=multi-user.target
 ```
 
-## 5. Запуск сервиса
+## 7. Запуск сервиса
 ```bash
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
@@ -169,24 +183,14 @@ sudo systemctl enable --now n8n
 systemctl status n8n
 ```
 
-## 6. Обновление n8n
+## 8. Обновление n8n
 Остановка сервиса:
 ```bash
 sudo systemctl stop n8n
 ```
-Обновление Node.js до версии ≥ 20 (требуется для новых версий n8n):
-```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-```
-Проверка:
-```bash
-node -v
-npm -v
-```
 Обновление n8n через npm:
 ```bash
-sudo npm install -g n8n
+sudo npm update -g n8n
 ```
 Проверка версии:
 ```bash
@@ -197,7 +201,7 @@ n8n --version
 sudo systemctl start n8n
 ```
 
-## 7. Резервное копирование
+## 9. Резервное копирование
 Конфигурация:
 ```bash
 sudo cp -a /opt/n8n/.n8n /opt/n8n/.n8n.bak.$(date +%F)
@@ -207,7 +211,7 @@ sudo cp -a /opt/n8n/.n8n /opt/n8n/.n8n.bak.$(date +%F)
 sudo -u postgres pg_dump n8n > ~/n8n_backup_$(date +%F).sql
 ```
 
-## 8. Логи и отладка
+## 10. Логи и отладка
 ```bash
 journalctl -u n8n -e
 ```

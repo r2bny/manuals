@@ -5,7 +5,7 @@
 Выполните обновление системы и установите пакеты:
 ```bash
 sudo apt update && sudo apt full-upgrade -y
-sudo apt install -y lxc lxc-templates debootstrap bridge-utils uidmap dnsmasq-base iptables net-tools curl rsync apparmor apparmor-utils
+sudo apt install -y lxc lxc-templates debootstrap bridge-utils xz-utils uidmap dnsmasq-base iptables net-tools curl rsync apparmor apparmor-utils
 ```
 Проверьте поддержку user namespaces (в Debian 13 по умолчанию включено):
 ```bash
@@ -80,7 +80,7 @@ lxc.apparmor.allow_nesting = 1
 EOF
 ```
 
-## 4. Создание базового контейнера (шаблон-эталон)
+## 4. Создание базового контейнера
 Создайте базовый контейнер Debian 13 (trixie):
 ```bash
 sudo lxc-create -n debian13 -t download -- \
@@ -208,22 +208,22 @@ sudo mkdir -p /var/cache/lxc/templates
 sudo cp -a /var/lib/lxc/debian13 /var/cache/lxc/templates/debian13
 ```
 
-## 5. Создание нового контейнера из шаблона
-Создайте пустой контейнер (например postgresql):
+## 5. Создание нового контейнера из шаблона (опционально)
+Создайте пустой контейнер (например n8n):
 ```bash
-sudo lxc-create -n postgresql -t none
+sudo lxc-create -n n8n -t none
 ```
 Скопируйте файловую систему из шаблона:
 ```bash
-sudo rsync -aHAX --delete /var/cache/lxc/templates/debian13/rootfs/ /var/lib/lxc/postgresql/rootfs/
+sudo rsync -aHAX --delete /var/cache/lxc/templates/debian13/rootfs/ /var/lib/lxc/n8n/rootfs/
 ```
 Cкопируйте конфиг шаблона в новый контейнер:
 ```bash
-sudo cp /var/cache/lxc/templates/debian13/config /var/lib/lxc/postgresql/config
-sudo sed -i "s/lxc.uts.name = .*/lxc.uts.name = postgresql/" /var/lib/lxc/postgresql/config
+sudo cp /var/cache/lxc/templates/debian13/config /var/lib/lxc/n8n/config
+sudo sed -i "s/lxc.uts.name = .*/lxc.uts.name = n8n/" /var/lib/lxc/n8n/config
 ```
 Выполните запуск и вход:
 ```bash
-sudo lxc-start -n postgresql -d
-sudo lxc-attach -n postgresql
+sudo lxc-start -n n8n -d
+sudo lxc-attach -n n8n
 ```
